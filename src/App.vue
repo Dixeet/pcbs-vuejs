@@ -1,28 +1,34 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="inspire" dark>
+    <v-toolbar app fixed clipped-left>
+      <v-toolbar-title>PCBS Calculator</v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout justify-center>
+          <CpuTable></CpuTable>
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-footer app fixed>
+      <span>&copy; 2017</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import CpuTable from "./components/CpuTable";
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
+    CpuTable,
+  },
+  data () {
+    return {
+      drawer: true,
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
