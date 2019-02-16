@@ -3,7 +3,9 @@
     <v-card-title>
       <FilteringDialog
           :filter-button-color="filterButtonColor"
-          :filtersOptions="filtersOptions"
+          :initialFiltersOptions="filtersOptions"
+          :initialFilters="filters"
+          @apply-filters="applyFilters"
       />
       <v-spacer></v-spacer>
       <v-text-field
@@ -57,16 +59,14 @@
         ram: {
           number: "2",
           freq: "3200",
+          filterOptions: {
+            type: 'ram',
+            freqValues: [],
+            numberValues: [1, 2],
+            name: 'Ram frequency',
+            id: 'ram',
+          },
         },
-        price: {
-          type: 'min-max',
-          min: 150,
-          max: 300
-        },
-        type: {
-          type: 'select',
-          select: 'ryzen',
-        }
       },
       filtersOptions: [
         {
@@ -97,13 +97,6 @@
         });
         this.filtersOptions = this.filtersOptions.concat([
             {
-              type: 'ram',
-              freqValues: this.defaultCpus[0]["1"],
-              numberValues: [1, 2],
-              name: 'Ram frequency',
-              id: 'ram',
-            },
-            {
               type: 'select',
               values: this.cpuTypes,
               name: 'Type',
@@ -111,31 +104,46 @@
             },
           ],
         );
+        this.filters.ram.filterOptions.freqValues = Object.keys(this.defaultCpus[0]["1"]);
+      },
+
+      applyFilters: function (filters) {
+        this.filters = filters;
+        this.filter();
       },
 
       filter: function () {
+        this.filterButtonColor = '';
         this.cpus = this.defaultCpus.slice();
         this.cpus.forEach((cpu, i) => {
           this.cpus[i].points = cpu[this.filters.ram.number][this.filters.ram.freq];
           this.cpus[i].pointsPerDollar = Math.round(this.cpus[i].points / cpu.price * 10) / 10;
         });
-        Object.keys(this.filters).forEach(filterKey => {
-          const filter = this.filters[filterKey];
-          if (filterKey !== 'ram') {
-            this.cpus = this.cpus.filter(cpu => {
-              let result = true;
-              if (filter.type === 'min-max') {
-                result = (typeof filter.min !== 'undefined' && cpu[filterKey] < filter.min) ?
-                  false : result;
-                result = (result && typeof filter.max !== 'undefined' && cpu[filterKey] > filter.max) ?
-                  false : result;
+        this.cpus = this.cpus.filter(cpu => {
+          let result = true;
+          Object.keys(this.filters).some(filterKey => {
+            const filter = this.filters[filterKey];
+            if (filterKey !== 'ram') {
+              this.filterButtonColor = 'blue';
+              if (filter.filterOptions.type === 'min-max') {
+                if (typeof filter.min !== 'undefined' && cpu[filterKey] < filter.min) {
+                  result = false;
+                  return true;
+                }
+                if (result && typeof filter.max !== 'undefined' && cpu[filterKey] > filter.max) {
+                  result = false;
+                  return true;
+                }
               }
-              if (filter.type === 'select') {
-                result = (cpu[filterKey] !== filter.select) ? false : result;
+              if (filter.filterOptions.type === 'select') {
+                if (cpu[filterKey] !== filter.select) {
+                  result = false;
+                  return true;
+                }
               }
-              return result;
-            })
-          }
+            }
+          });
+          return result;
         });
         this.setHeaders();
       },
