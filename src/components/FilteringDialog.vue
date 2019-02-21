@@ -89,7 +89,7 @@
                     </v-list-tile-content>
                     <v-list-tile-action>
                       <v-btn @click="deleteFilter(item)" flat icon slot="activator"
-                             v-if="item.filterOptions.type !== 'ram'">
+                             v-if="!item.filterOptions.mandatory">
                         <v-icon>close</v-icon>
                       </v-btn>
                     </v-list-tile-action>
@@ -162,7 +162,6 @@
 <style scoped>
   .list-tile {
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
     margin-bottom: 5px;
   }
 </style>

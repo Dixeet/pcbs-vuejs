@@ -1,12 +1,16 @@
 <template>
   <v-app id="inspire" dark>
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-title>PCBS Calculator</v-toolbar-title>
+      <v-toolbar-title><router-link to="/">PCBS</router-link></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn @click="$router.push('/cpus')" flat><router-link to="/cpus">CPUS</router-link></v-btn>
+      </v-toolbar-items>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
         <v-layout justify-center>
-          <CpuTable></CpuTable>
+          <router-view/>
         </v-layout>
       </v-container>
     </v-content>
@@ -16,19 +20,9 @@
   </v-app>
 </template>
 
-<script>
-
-import CpuTable from "./components/CpuTable";
-
-export default {
-  name: 'App',
-  components: {
-    CpuTable,
-  },
-  data () {
-    return {
-      drawer: true,
-    }
+<style>
+  a {
+    color: inherit !important;
+    text-decoration: none;
   }
-}
-</script>
+</style>
