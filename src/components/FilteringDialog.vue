@@ -66,6 +66,14 @@
                                 </v-radio-group>
                               </v-flex>
                             </v-layout>
+                            <v-layout justify-space-between v-if="item.filterOptions.type === 'multigpu'">
+                              <v-flex xs5>
+                                <v-checkbox
+                                    v-model="item.value"
+                                    :label="'Activate'"
+                                ></v-checkbox>
+                              </v-flex>
+                            </v-layout>
                             <v-layout justify-space-between v-if="item.filterOptions.type === 'min-max'">
                               <v-flex xs5>
                                 <v-text-field label="Min" v-model="item.min"></v-text-field>

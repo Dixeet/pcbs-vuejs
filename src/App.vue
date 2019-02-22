@@ -5,6 +5,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn @click="$router.push('/cpus')" flat><router-link to="/cpus">CPUS</router-link></v-btn>
+        <v-btn @click="$router.push('/gpus')" flat><router-link to="/gpus">GPUS</router-link></v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
