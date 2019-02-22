@@ -81,15 +81,14 @@ const getters = {
 
 const actions = {
   filter({commit}, filters) {
-    commit('setFilters', filters);
-    // commit('setFilterButtonColor', '');
+    if (!filters) {
+      filters = state.filters;
+    } else {
+      commit('setFilters', filters);
+    }
     state.filterButtonColor = '';
-    let cpus = state.defaultCpus.slice();
-    cpus.forEach((cpu, i) => {
-      cpus[i].points = cpu[filters.ram.number][filters.ram.freq];
-      cpus[i].pointsPerDollar = Math.round(cpus[i].points / cpu.price * 10) / 10;
-    });
-    cpus = cpus.filter(cpu => {
+    let cpus = [];
+    state.defaultCpus.forEach((cpu, i) => {
       let result = true;
       Object.keys(filters).some(filterKey => {
         const filter = filters[filterKey];
@@ -114,7 +113,11 @@ const actions = {
           }
         }
       });
-      return result;
+      if (result) {
+        cpu.points = cpu[filters.ram.number][filters.ram.freq];
+        cpu.pointsPerDollar = Math.round(cpu.points / cpu.price * 10) / 10;
+        cpus.push(cpu);
+      }
     });
     commit('setCpus', cpus);
   },

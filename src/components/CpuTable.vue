@@ -67,7 +67,10 @@
       applyFilters(filters) {
         this.$store.dispatch('cpu/filter', filters);
       },
-    }
+    },
+    created() {
+      this.$store.dispatch('cpu/filter');
+    },
 
   }
 </script>
