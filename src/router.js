@@ -28,5 +28,9 @@ export default new VueRouter({
       name: 'gpus',
       component: GpuTable
     },
+    {
+      path: '*',
+      redirect: '/cpus'
+    },
   ],
 })
