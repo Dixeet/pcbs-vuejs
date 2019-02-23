@@ -80,7 +80,7 @@ const actions = {
     }
     state.filterButtonColor = '';
     let gpus = [];
-    state.defaultGpus.forEach((gpu, i) => {
+    state.defaultGpus.forEach((gpu) => {
       let result = true;
       Object.keys(filters).some(filterKey => {
         const filter = filters[filterKey];

@@ -7,7 +7,7 @@ const state = {
   filters: {
     ram: {
       number: "2",
-      freq: "3200",
+      freq: "2666",
       filterOptions: {
         type: 'ram',
         freqValues: ["2133","2400","2600","2666","2800","3000","3200","3300","3333","3400","3466","3600","3666","3733","3800","3866","4000","4133"],
@@ -88,7 +88,7 @@ const actions = {
     }
     state.filterButtonColor = '';
     let cpus = [];
-    state.defaultCpus.forEach((cpu, i) => {
+    state.defaultCpus.forEach((cpu) => {
       let result = true;
       Object.keys(filters).some(filterKey => {
         const filter = filters[filterKey];

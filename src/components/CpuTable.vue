@@ -1,5 +1,6 @@
 <template>
   <v-flex xs7>
+    <h1 class="mb-3">CPUS</h1>
     <v-card>
       <v-card-title>
         <FilteringDialog
@@ -25,12 +26,14 @@
           :search="search"
       >
         <template slot="items" slot-scope="props">
-          <td>{{ props.item.name }}</td>
-          <td>{{ props.item.points }} pts</td>
-          <td>{{ props.item.price }} $</td>
-          <td>{{ props.item.pointsPerDollar }}</td>
-          <td>{{ props.item.wattage }} W</td>
-          <td>{{ props.item.type }}</td>
+          <tr :class="{'active-build': !!$store.state.drawer.cpu && $store.state.drawer.cpu.name === props.item.name}" class="cursor-as-pointer" @click="select(props.item)">
+            <td>{{ props.item.name }}</td>
+            <td>{{ props.item.points }} pts</td>
+            <td>{{ props.item.price }} $</td>
+            <td>{{ props.item.pointsPerDollar }}</td>
+            <td>{{ props.item.wattage }} W</td>
+            <td>{{ props.item.type }}</td>
+          </tr>
         </template>
       </v-data-table>
     </v-card>
@@ -67,6 +70,9 @@
       applyFilters(filters) {
         this.$store.dispatch('cpu/filter', filters);
       },
+      select(cpu) {
+        this.$store.dispatch('drawer/setCpu', cpu);
+      }
     },
     created() {
       this.$store.dispatch('cpu/filter');
@@ -75,6 +81,9 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+  .active-build {
+    /*background: #354261;*/
+    background: #555555;
+  }
 </style>
